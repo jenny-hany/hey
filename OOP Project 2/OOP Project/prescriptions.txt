@@ -1,1 +1,2 @@
-panadol,120mg,2 times/day,Mark,mohamed,Wed Dec 11 22:34:28 EET 2024
+panadol,120mg,2 times/day,Mark,mohamed,Thu Dec 12 00:20:03 EET 2024
+panadol,240mg,3 times/day,Mark,jenny,Thu Dec 12 00:20:34 EET 2024

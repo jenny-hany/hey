@@ -112,10 +112,10 @@ public class Main {
                         "5.Change availability \n" +
                         "6.Exit");
                 action = input.nextInt();
+                Scanner scanner=new Scanner(System.in);
                 switch (action)
                 {
                     case 1:
-                        Scanner scanner = new Scanner(System.in);
                         // Prompt user for input
                         System.out.println("Enter Medicine's name: ");
                         String medicineName = scanner.nextLine();
@@ -155,7 +155,7 @@ public class Main {
                         break;
 
                     case 2:
-                        
+
                         option=false;
                         break;
 
@@ -164,7 +164,76 @@ public class Main {
                     case 4:
                      break;
                     case 5:
-                        break;
+                      System.out.println("1.Change days \n " +
+                              "2.Change hours \n");
+                      int availablechoice;
+                      availablechoice = input.nextInt();
+                      if (availablechoice==1)
+                      {
+                          // Get the username of the doctor
+                          System.out.print("Enter the doctor's username: ");
+                          String doctorcheckUsername = scanner.nextLine();
+
+                          // Find the doctor from the data
+                          Doctor doctorcheck = data.findDoctorByUsername(doctorcheckUsername);
+                          if (doctorcheck == null) {
+                              System.out.println("Doctor with username " + doctorcheckUsername + " not found.");
+                              return;
+                          }
+
+                          // Get the available days
+                          System.out.println("Enter the update of available days for the doctor (comma separated): ");
+                          String availableDaysInput = scanner.nextLine();
+                          String[] newAvailableDays = availableDaysInput.split(":");
+
+                          // Change the available days
+                          boolean daysUpdated = data.changeAvailableDays(doctorcheckUsername, newAvailableDays);
+                          if (daysUpdated) {
+                              System.out.println("Available days updated successfully.");
+                          } else {
+                              System.out.println("Failed to update available days.");
+                          }
+                          option=false;
+                          break;
+                      }
+                      else if (availablechoice==2)
+                      {
+                          System.out.print("Enter the doctor's username: ");
+                          String doctorUsername = scanner.nextLine();
+                          System.out.println("Enter the available hours for the doctor (startTime-endTime, one per line, type 'done' when finished): ");
+                          ArrayList<float[]> newAvailableHours = new ArrayList<>();
+                          while (true) {
+                              String hoursInput = scanner.nextLine();
+                              if (hoursInput.equalsIgnoreCase("done")) {
+                                  break;
+                              }
+
+                              try {
+                                  // Parse the hours in the format startTime-endTime (e.g., 9.0-12.0)
+                                  String[] timeRange = hoursInput.split(":");
+                                  float startTime = Float.parseFloat(timeRange[0]);
+                                  float endTime = Float.parseFloat(timeRange[1]);
+                                  newAvailableHours.add(new float[]{startTime, endTime});
+                              } catch (Exception e) {
+                                  System.out.println("Invalid input for hours, please try again.");
+                              }
+                          }
+
+                          // Change the available hours
+                          boolean hoursUpdated = data.changeAvailableHours(doctorUsername, newAvailableHours);
+                          if (hoursUpdated) {
+                              System.out.println("Available hours updated successfully.");
+                          } else {
+                              System.out.println("Failed to update available hours.");
+                          }
+                          option=false;
+                          break;
+                      }
+                      else {
+                          System.out.println("Invalid choice!!");
+                      }
+                      break;
+
                     case 6 :
                         System.exit(1);
                 }

@@ -1,10 +1,13 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+
 import static filehandlingexample.FileHandling.readFromFile;
 
 public class data {
     public static List<Doctor> Doctors=new ArrayList<>();
+
     public static List<Patient> Patients=new ArrayList<>();
     public static List<Receptionist> Receptionists =new ArrayList<>();
     public static List<Dentalclinic> Dentalclinics=new ArrayList<>();
@@ -26,6 +29,7 @@ public class data {
         String DCfilePath = "DentalClinic.txt";
         String APfilePath = "appointments.txt";
         String PRfilePath = "prescriptions.txt";
+
 
         //DOCTOR LOAD FILE
 
@@ -218,6 +222,45 @@ public class data {
         }
         return true;
     }
+    //changeavailability
+
+    // Method to find a doctor by username
+    public static Doctor findDoctorByUsername(String username) {
+        return Doctors.stream()
+                .filter(d -> d.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static boolean changeAvailableDays(String doctorUsername, String[] newAvailableDays) {
+        Doctor doctor = findDoctorByUsername(doctorUsername); // Find the doctor object
+        if (doctor != null) {
+            doctor.changeAvailableDays(newAvailableDays); // Update the days
+            boolean isSaved = Store(); // Save the changes to the file
+            if (isSaved) {
+                System.out.println("Doctor's available days updated and saved successfully.");
+            } else {
+                System.out.println("Failed to save updated available days.");
+            }
+            return isSaved;
+        }
+        return false;
+    }
+
+    public static boolean changeAvailableHours(String doctorUsername, ArrayList<float[]> newAvailableHours) {
+        Doctor doctor = findDoctorByUsername(doctorUsername); // Find the doctor object
+        if (doctor != null) {
+            doctor.changeAvailableHours(newAvailableHours); // Update the hours
+            boolean isSaved = Store(); // Save the changes to the file
+            if (isSaved) {
+                System.out.println("Doctor's available hours updated and saved successfully.");
+            } else {
+                System.out.println("Failed to save updated available hours.");
+            }
+            return isSaved;
+        }
+        return false;
+}
 
     public static boolean Store() {
         String DRfilePath = "doctors.txt"; // Replace with the path to your file
@@ -447,4 +490,5 @@ public class data {
         }
         return false; // Successfully cleared and wrote new data
     }
+
 }
